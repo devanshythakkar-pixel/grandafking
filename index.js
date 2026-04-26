@@ -16,7 +16,7 @@ const botArgs = {
   host: 'Chaos_SMP-tHvy.aternos.me',
   port: 27024,
   username: 'MambaBot',
-  version: '1.21.1' 
+  version: '1.21.1'
 }
 
 let bot
@@ -28,26 +28,16 @@ function createBot() {
     console.log('SUCCESS: Bot is in the server!')
     
     setInterval(() => {
-      console.log('Bot is performing 4 jumps...')
-      let jumps = 0
-      const jumpInterval = setInterval(() => {
-        bot.setControlState('jump', true)
-        bot.setControlState('jump', false)
-        jumps++
-        if (jumps >= 4) clearInterval(jumpInterval)
-      }, 500)
+      bot.setControlState('jump', true)
+      setTimeout(() => bot.setControlState('jump', false), 500)
     }, 20000)
   })
 
   bot.on('end', () => {
-    console.log('Bot disconnected. Retrying...')
     setTimeout(createBot, 30000)
   })
 
-  // Basic error catch to prevent the script from crashing
-  bot.on('error', (err) => console.log(err))
+  bot.on('error', (err) => {})
 }
 
 createBot()
-
-createBot();
