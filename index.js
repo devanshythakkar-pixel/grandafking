@@ -1,20 +1,25 @@
 const mineflayer = require('mineflayer');
 const express = require('express');
 
-// WEB SERVER: Keeps Render happy
+// 1. THE WEB SERVER (The original Port 3000)
 const app = express();
-const port = 10000; 
+const port = 3000;
 
-app.get('/', (req, res) => res.send('MambaBot is Online'));
-app.listen(port, () => console.log(`Server active on port ${port}`));
+app.get('/', (req, res) => {
+    res.send('MambaBot Training Facility: ACTIVE');
+});
 
-// BOT CONFIG: The specific 1.21.11 setup that worked
+app.listen(port, () => {
+    console.log(`Web server running on port ${port}`);
+});
+
+// 2. BOT CONFIGURATION
 const botArgs = {
-    host: 'Chaos_SMP-tHvy.aternos.me', 
-    port: 27024, 
-    username: 'MambaBot', 
-    version: '1.21.11',
-    checkTimeoutInterval: 60000
+    host: 'Chaos_SMP-tHvy.aternos.me',
+    port: 27024,
+    username: 'MambaBot',
+    version: '1.21.1', // The version we used when he first joined
+    checkTimeoutInterval: 60 * 1000
 };
 
 let bot;
@@ -26,24 +31,27 @@ function createBot() {
     bot.on('login', () => {
         console.log('SUCCESS: Bot is in the server!');
         
-        // SIMPLE JUMP: Every 30 seconds to stay active
+        // THE JUMP ROUTINE: Every 20 seconds
         setInterval(() => {
-            if (bot.entity) {
+            console.log('Bot is performing 4 jumps...');
+            let jumps = 0;
+            const jumpInterval = setInterval(() => {
                 bot.setControlState('jump', true);
-                setTimeout(() => bot.setControlState('jump', false), 500);
-            }
-        }, 30000);
+                bot.setControlState('jump', false);
+                jumps++;
+                if (jumps >= 4) clearInterval(jumpInterval);
+            }, 500);
+        }, 20000);
     });
 
+    // RECONNECT LOGIC
     bot.on('error', (err) => console.log('ERROR:', err.message));
     bot.on('kicked', (reason) => console.log('KICKED:', reason));
-
+    
     bot.on('end', () => {
         console.log('Bot disconnected. Retrying in 30s...');
         setTimeout(createBot, 30000);
     });
 }
-
-createBot();
 
 createBot();
