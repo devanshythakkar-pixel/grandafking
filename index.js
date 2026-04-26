@@ -16,29 +16,30 @@ const botArgs = {
 };
 
 function createBot() {
+    console.log('--- ATTEMPTING TO CONNECT ---');
     bot = mineflayer.createBot(botArgs);
 
-    // This helps debug why the bot isn't showing up
-    bot.on('error', (err) => console.log('CONNECTION ERROR:', err.message));
-    bot.on('kicked', (reason) => console.log('KICKED REASON:', reason));
-
+    // This will log if the bot is stuck at the loading screen
+    bot.on('inject_allowed', () => console.log('Checking server version...'));
+    
     bot.on('login', () => {
         console.log('SUCCESS: Bot is in the server!');
-        
-        setInterval(() => {
-            console.log('Bot is performing 4 jumps...');
-            let jumps = 0;
-            const jumpInterval = setInterval(() => {
-                bot.setControlState('jump', true);
-                bot.setControlState('jump', false);
-                jumps++;
-                if (jumps >= 4) clearInterval(jumpInterval);
-            }, 500);
-        }, 20000);
+        // Your jump code here
+    });
+
+    bot.on('error', (err) => {
+        console.log('CRITICAL ERROR:', err.message);
+    });
+
+    bot.on('kicked', (reason) => {
+        console.log('KICKED BY SERVER:', reason);
     });
 
     bot.on('end', () => {
-        console.log('Bot disconnected. Retrying in 30s...');
+        console.log('Connection closed. Retrying in 30s...');
         setTimeout(createBot, 30000);
     });
 }
+
+// Call it once to start
+createBot();
