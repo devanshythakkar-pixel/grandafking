@@ -14,30 +14,44 @@ const botArgs = {
     hideErrors: false
 };
 function createBot() {
-    console.log('--- ATTEMPTING TO CONNECT ---');
     bot = mineflayer.createBot(botArgs);
 
-    // This will log if the bot is stuck at the loading screen
-    bot.on('inject_allowed', () => console.log('Checking server version...'));
-    
-    bot.on('login', () => {
-        console.log('SUCCESS: Bot is in the server!');
-        // Your jump code here
+    bot.on('spawn', () => {
+        console.log('SUCCESS: MambaBot is on the court!');
+        
+        if (bot.moveInterval) clearInterval(bot.moveInterval);
+
+        bot.moveInterval = setInterval(async () => {
+            console.log('Starting Mamba movement drill...');
+            
+            // 1. Move Forward for 1 second
+            bot.setControlState('forward', true);
+            await new Promise(r => setTimeout(r, 1000));
+            bot.setControlState('forward', false);
+
+            // 2. Move Backward for 1 second
+            bot.setControlState('back', true);
+            await new Promise(r => setTimeout(r, 1000));
+            bot.setControlState('back', false);
+
+            // 3. Move Left for 1 second
+            bot.setControlState('left', true);
+            await new Promise(r => setTimeout(r, 1000));
+            bot.setControlState('left', false);
+
+            // 4. Move Right for 1 second
+            bot.setControlState('right', true);
+            await new Promise(r => setTimeout(r, 1000));
+            bot.setControlState('right', false);
+
+            // 5. The Jump
+            bot.setControlState('jump', true);
+            bot.setControlState('jump', false);
+            
+            console.log('Drill complete. Resting for 60s.');
+        }, 60000); // Runs every 60 seconds
     });
 
-    bot.on('error', (err) => {
-        console.log('CRITICAL ERROR:', err.message);
-    });
-
-    bot.on('kicked', (reason) => {
-        console.log('KICKED BY SERVER:', reason);
-    });
-
-    bot.on('end', () => {
-        console.log('Connection closed. Retrying in 30s...');
-        setTimeout(createBot, 30000);
-    });
+    bot.on('error', (err) => console.log('ERROR:', err.message));
+    bot.on('kicked', (reason) => console.log('KICKED:', reason));
 }
-
-// Call it once to start
-createBot();
