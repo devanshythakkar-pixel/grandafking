@@ -9,7 +9,8 @@ const botArgs = {
     host: 'Chaos_SMP-tHvy.aternos.me',
     port: 27024,
     username: 'MambaBot',
-    version: '1.21.11', // Add that extra 1 at the end
+    version: '1.21.11', // Update this to match the server exactly
+    connectTimeout: 30000, // Give it 30 seconds to "shake hands"
     hideErrors: false
 };
 function createBot() {
