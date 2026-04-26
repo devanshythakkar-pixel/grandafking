@@ -9,7 +9,7 @@ const botArgs = {
     host: 'Chaos_SMP-tHvy.aternos.me',
     port: 27024,
     username: 'MambaBot',
-    version: '1.21.1', // Change this to '1.21.1' if it isn't already
+    version: '1.21.11', // Change this from '1.21.1' to '1.21.11'
     hideErrors: false
 };
 function createBot() {
