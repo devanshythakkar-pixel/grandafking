@@ -9,9 +9,9 @@ app.listen(3000, () => console.log('Web server running on port 3000'));
 // 2. Bot Configuration
 const botArgs = {
     host: 'Chaos_SMP-tHvy.aternos.me', 
-    port: 27024, // Standard port
-    username: 'MambaBot', // Any name you want
-    version: false // Automatically detects version
+    port: 27024, 
+    username: 'MambaBot', 
+    version: "1.201.11" // <--- Change this to match your server's version!
 };
 
 let bot;
