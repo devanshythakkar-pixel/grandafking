@@ -11,7 +11,7 @@ const botArgs = {
     host: 'Chaos_SMP-tHvy.aternos.me', 
     port: 27024, 
     username: 'MambaBot', 
-    version: "1.201.11" // <--- Change this to match your server's version!
+    version: false 
 };
 
 let bot;
