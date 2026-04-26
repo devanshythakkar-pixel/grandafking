@@ -9,12 +9,9 @@ const botArgs = {
     host: 'Chaos_SMP-tHvy.aternos.me',
     port: 27024,
     username: 'MambaBot',
-    version: '1.21.1',
-    // These two lines are crucial for 1.21.1 servers
-    checkTimeoutInterval: 60 * 1000, 
-    hideErrors: false 
+    version: '1.21.1', // Change this to '1.21.1' if it isn't already
+    hideErrors: false
 };
-
 function createBot() {
     console.log('--- ATTEMPTING TO CONNECT ---');
     bot = mineflayer.createBot(botArgs);
